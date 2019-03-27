@@ -1,0 +1,24 @@
+[Unit]
+Description=Grafana service
+After=network.target
+
+[Service]
+User=grafana
+Group=grafana
+RuntimeDirectory=%N
+WorkingDirectory=/usr/share/grafana
+ExecStart=/usr/bin/grafana-server --config=%E/grafana.ini
+LimitNOFILE=10000
+TimeoutStopSec=20
+SuccessExitStatus=0 2
+NoNewPrivileges=yes
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+
+[Install]
+WantedBy=multi-user.target

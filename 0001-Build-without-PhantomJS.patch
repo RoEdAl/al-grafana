@@ -1,0 +1,102 @@
+From 54799601b0fd35c5a965e4c53693da3f52171d68 Mon Sep 17 00:00:00 2001
+From: Edmunt Pienkowsky <roed@onet.eu>
+Date: Mon, 25 Mar 2019 11:44:11 +0100
+Subject: [PATCH] Build without PhantomJS
+
+Signed-off-by: Edmunt Pienkowsky <roed@onet.eu>
+
+diff --git a/package.json b/package.json
+index 930ba15e3..966543626 100644
+--- a/package.json
++++ b/package.json
+@@ -79,7 +79,6 @@
+     "node-sass": "^4.11.0",
+     "npm": "^5.4.2",
+     "optimize-css-assets-webpack-plugin": "^4.0.2",
+-    "phantomjs-prebuilt": "^2.1.15",
+     "postcss-browser-reporter": "^0.5.0",
+     "postcss-loader": "^2.0.6",
+     "postcss-reporter": "^5.0.0",
+diff --git a/scripts/grunt/build_task.js b/scripts/grunt/build_task.js
+index ca64c8d6f..41f9b679e 100644
+--- a/scripts/grunt/build_task.js
++++ b/scripts/grunt/build_task.js
+@@ -6,7 +6,6 @@ module.exports = function(grunt) {
+   grunt.registerTask('build', [
+     'clean:release',
+     'clean:build',
+-    'phantomjs',
+     'exec:webpack',
+   ]);
+ 
+diff --git a/scripts/grunt/default_task.js b/scripts/grunt/default_task.js
+index 8a71ea266..d7b273de5 100644
+--- a/scripts/grunt/default_task.js
++++ b/scripts/grunt/default_task.js
+@@ -4,7 +4,6 @@ module.exports = function (grunt) {
+ 
+   grunt.registerTask('default', [
+     'clean:build',
+-    'phantomjs',
+     'webpack:dev',
+   ]);
+ 
+diff --git a/scripts/grunt/options/phantomjs.js b/scripts/grunt/options/phantomjs.js
+deleted file mode 100644
+index 8c4e8dbd2..000000000
+--- a/scripts/grunt/options/phantomjs.js
++++ /dev/null
+@@ -1,37 +0,0 @@
+-module.exports = function(config,grunt) {
+-  'use strict';
+-
+-  grunt.registerTask('phantomjs', 'Copy phantomjs binary to vendor/', function() {
+-
+-    var dest = './tools/phantomjs/phantomjs';
+-    var confDir = './node_modules/phantomjs-prebuilt/lib/';
+-
+-    if (process.platform === "win32") {
+-      dest += ".exe";
+-    }
+-
+-    src = config.phjs
+-
+-    if (!src){
+-      var m=grunt.file.read(confDir+"location.js")
+-      var src=/= \"([^\"]*)\"/.exec(m)[1];
+-
+-      if (!grunt.file.isPathAbsolute(src)) {
+-        src = confDir+src;
+-      }
+-    }
+-
+-    try {
+-      grunt.config('copy.phantom_bin', {
+-        src: src,
+-        dest: dest,
+-        options: { mode: true},
+-      });
+-      grunt.task.run('copy:phantom_bin');
+-    } catch (err) {
+-      grunt.verbose.writeln(err);
+-      grunt.fail.warn('No working Phantomjs binary available')
+-    }
+-
+-  });
+-};
+diff --git a/scripts/grunt/release_task.js b/scripts/grunt/release_task.js
+index f24ec6420..cb10bb6b8 100644
+--- a/scripts/grunt/release_task.js
++++ b/scripts/grunt/release_task.js
+@@ -33,7 +33,7 @@ module.exports = function(grunt) {
+     });
+     grunt.config('copy.backend_files', {
+       expand: true,
+-      src: ['conf/**', 'tools/phantomjs/*', 'scripts/*'],
++      src: ['conf/**', 'scripts/*'],
+       options: { mode: true},
+       dest: '<%= tempDir %>'
+     });
+-- 
+2.21.0
+
