@@ -27,7 +27,7 @@ In order to build **Grafana** packages for ARM architectures you need:
      ~~~
      domain = <your host name>
      ~~~
- 1. NGING - site configuration:
+ 1. NGINX - configuration:
     -  Site configuration
        ~~~
        location /grafana/ {
