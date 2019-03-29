@@ -1,7 +1,7 @@
-From 54799601b0fd35c5a965e4c53693da3f52171d68 Mon Sep 17 00:00:00 2001
+From 1b66a74a59c855c241133d5feebb4c980383a603 Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
 Date: Mon, 25 Mar 2019 11:44:11 +0100
-Subject: [PATCH] Build without PhantomJS
+Subject: [PATCH 1/2] Build without PhantomJS
 
 Signed-off-by: Edmunt Pienkowsky <roed@onet.eu>
 
