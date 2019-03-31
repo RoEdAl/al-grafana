@@ -1,0 +1,44 @@
+# Maintainer: Edmunt Pienkowsky <roed@onet.eu>
+
+# Based on: http://www.archlinux.org/packages/community/x86_64/grafana/
+# Excluded PhantomJS library due to lack of prebuilt binaries for ARM architectures.
+# You may try http://github.com/grafana/grafana-image-renderer plugin instead.
+
+pkgname=grafana-frontend
+_pkgname=grafana
+pkgver=6.0.2
+pkgrel=1
+pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB - Frontend'
+url='https://grafana.com/'
+arch=('any')
+license=('Apache')
+depends=('freetype2' 'fontconfig' 'gsfonts')
+makedepends=('npm' 'grunt-cli' 'python2')
+source=("$_pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz")
+sha256sums=('148f8225bd23efbdb7046e30ffad2d53a71b448f1f143e5cfe1a71c5050b4056')
+
+build() {
+  msg2 'Cache setup'
+  export YARN_CACHE_FOLDER="$srcdir/cache/yarn"
+  local GYPTMP="$srcdir/tmp/gyp"
+  local NODETMP="$srcdir/tmp/node"
+  mkdir -p "$GYPTMP"
+  mkdir -p "$NODETMP"
+  mkdir -p "$YARN_CACHE_FOLDER"
+
+  msg2 'Building the frontend'
+  local npm_config_prefix="$srcdir/npm"
+  export PATH+=":$npm_config_prefix/bin"
+  cd $_pkgname-$pkgver
+  env npm_config_devdir="$GYPTMP" npm_config_prefix="$npm_config_prefix" TMPDIR="$NODETMP" npm install -g yarn
+  env npm_config_devdir="$GYPTMP" npm_config_prefix="$npm_config_prefix" TMPDIR="$NODETMP" yarn install --pure-lockfile --no-progress --network-concurrency=1 --network-timeout=60000
+  env npm_config_devdir="$GYPTMP" npm_config_prefix="$npm_config_prefix" TMPDIR="$NODETMP" npm run build release
+}
+
+package() {
+  install -dm755 "$pkgdir/usr/share/$_pkgname/"
+  cd $_pkgname-$pkgver
+  for i in public conf tools; do
+    cp -r "$i" "$pkgdir/usr/share/$_pkgname/$i"
+  done
+}

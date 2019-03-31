@@ -10,10 +10,10 @@ pkgrel=1
 _commit_short=3f4c2e7-al
 pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB'
 url='https://grafana.com/'
-arch=('x86_64' 'aarch64' 'armv7h' 'armv6h')
+arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
 license=('Apache')
-depends=('glibc' 'freetype2' 'fontconfig' 'gsfonts')
-makedepends=('go-pie' 'npm' 'grunt-cli' 'python2')
+depends=('glibc' "grafana-frontend=$pkgver")
+makedepends=('go-pie')
 backup=('etc/grafana.ini')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
 	'0001-Build-without-PhantomJS.patch'
@@ -22,6 +22,7 @@ source=("$pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$p
 	'grafana.sysusers'
 	'grafana.tmpfiles'
 	'nginx-grafana.conf')
+noextract=("$pkgname-$pkgver.tar.gz")
 sha256sums=('148f8225bd23efbdb7046e30ffad2d53a71b448f1f143e5cfe1a71c5050b4056'
             '797aafa111a994bacf06baf0763c74f0e190a8ab46aee27aab8b65f1ef05cf2d'
             'c1b0070d318df0d94420a74078ef88402cbd5c76b480872a5f6ed23f539eecb0'
@@ -31,7 +32,20 @@ sha256sums=('148f8225bd23efbdb7046e30ffad2d53a71b448f1f143e5cfe1a71c5050b4056'
             'e500f50fcb86859d94c9fd63084487141b7c90302a356e7e466bffcce7336014')
 
 prepare() {
-  cd $pkgname-$pkgver
+  msg2 'Cache setup'
+  local GOCACHE="$srcdir/cache/go"
+  local GOTMP="$srcdir/tmp/go"
+  mkdir -p "$GOCACHE"
+  mkdir -p "$GOTMP"
+
+  msg2 'GOPATH setup'
+  local GOPATH="$srcdir/gopath"
+  mkdir -p "$GOPATH/src/github.com/grafana"
+  bsdtar -xf "$srcdir/$pkgname-$pkgver.tar.gz" -C "$GOPATH/src/github.com/$pkgname"
+  mv "$GOPATH/src/github.com/$pkgname/$pkgname-$pkgver" "$GOPATH/src/github.com/$pkgname/$pkgname"
+
+  msg2 'Applying patches'
+  cd "$GOPATH/src/github.com/$pkgname/$pkgname"
   # apply patch from the source array (should be a pacman feature)
   local filename
   for filename in "${source[@]}"; do
@@ -40,51 +54,36 @@ prepare() {
       git apply "$srcdir/${filename##*/}"
     fi
   done
+
+  msg2 'Configuration file tweaks'
   # set arch linux paths
   sed -ri 's,^(\s*data\s*=).*,\1 /var/lib/grafana,' conf/defaults.ini
   sed -ri 's,^(\s*plugins\s*=).*,\1 /var/lib/grafana/plugins,' conf/defaults.ini
   sed -ri 's,^(\s*provisioning\s*=).*,\1 /var/lib/grafana/conf/provisioning,' conf/defaults.ini
+  sed -ri 's,^(\s*mode\s*=).*,\1 syslog,' conf/defaults.ini
+  sed -ri 's,^(\s*tag\s*=).*,\1 grafana,' conf/defaults.ini
   sed -ri 's,^(\s*logs\s*=).*,\1 /var/log/grafana,' conf/defaults.ini
 }
 
 build() {
-  msg2 'Cache setup'
-  export GOCACHE="$srcdir/cache/go"
-  export YARN_CACHE_FOLDER="$srcdir/cache/yarn"
+  local GOCACHE="$srcdir/cache/go"
   local GOTMP="$srcdir/tmp/go"
-  local GYPTMP="$srcdir/tmp/gyp"
-  local NODETMP="$srcdir/tmp/node"
-  mkdir -p "$GOCACHE"
-  mkdir -p "$GOTMP"
-  mkdir -p "$GYPTMP"
-  mkdir -p "$NODETMP"
-  mkdir -p "$YARN_CACHE_FOLDER"
-
-  msg2 'GOPATH setup'
   local GOPATH="$srcdir/gopath"
-  export PATH+=":$GOPATH/bin"
-  mkdir -p "$GOPATH/src/github.com/grafana/"
-  ln -fsrT "$srcdir/$pkgname-$pkgver/" "$GOPATH/src/github.com/grafana/grafana"
-  cd "$GOPATH/src/github.com/grafana/grafana"
 
   msg2 'Building the backend'
-  env GOPATH="$GOPATH" GOTMPDIR="$GOTMP" GOROOT_FINAL=/usr/lib/go GRAFANA_COMMIT="$_commit_short" go run build.go setup
-  env GOPATH="$GOPATH" GOTMPDIR="$GOTMP" GOROOT_FINAL=/usr/lib/go GRAFANA_COMMIT="$_commit_short" go run build.go build
-
-  msg2 'Building the frontend'
-  local npm_config_prefix="$srcdir/npm"
-  export PATH+=":$npm_config_prefix/bin"
-  env npm_config_devdir="$GYPTMP" npm_config_prefix="$npm_config_prefix" TMPDIR="$NODETMP" npm install -g yarn
-  env npm_config_devdir="$GYPTMP" npm_config_prefix="$npm_config_prefix" TMPDIR="$NODETMP" yarn install --pure-lockfile --no-progress --network-timeout=60000
-  env npm_config_devdir="$GYPTMP" npm_config_prefix="$npm_config_prefix" TMPDIR="$NODETMP" npm run build release
+  cd "$GOPATH/src/github.com/$pkgname/$pkgname"
+  env PATH="$PATH:$GOPATH/bin" TMPDIR="$GOTMP" GOCACHE="$GOCACHE" GOPATH="$GOPATH" GOTMPDIR="$GOTMP" GOROOT_FINAL=/usr/lib/go GRAFANA_COMMIT="$_commit_short" go run build.go setup
+  env PATH="$PATH:$GOPATH/bin" TMPDIR="$GOTMP" GOCACHE="$GOCACHE" GOPATH="$GOPATH" GOTMPDIR="$GOTMP" GOROOT_FINAL=/usr/lib/go GRAFANA_COMMIT="$_commit_short" go run build.go build
 }
 
 package() {
+  local GOPATH="$srcdir/gopath"
+
   install -Dm644 grafana.tmpfiles "$pkgdir/usr/lib/tmpfiles.d/grafana.conf"
   install -Dm644 grafana.sysusers "$pkgdir/usr/lib/sysusers.d/grafana.conf"
   install -Dm644 grafana.service "$pkgdir/usr/lib/systemd/system/grafana.service"
 
-  cd $pkgname-$pkgver
+  cd $GOPATH/src/github.com/$pkgname/$pkgname
 
   case $CARCH in
     x86_64) PFM=amd64;;
@@ -98,9 +97,6 @@ package() {
 
   install -Dm640 conf/sample.ini "$pkgdir/etc/$pkgname.ini"
   install -Dm644 conf/defaults.ini "$pkgdir/usr/share/$pkgname/conf/defaults.ini"
+  install -dm755 "$pkgdir/usr/share/$pkgname/"
   install -Dm644 "$srcdir/nginx-grafana.conf" "$pkgdir/usr/share/$pkgname/conf/nginx-grafana.conf"
-  install -dm755 "$pkgdir/usr/share/grafana/"
-  for i in vendor public tools; do
-    cp -r "$i" "$pkgdir/usr/share/grafana/$i"
-  done
 }
