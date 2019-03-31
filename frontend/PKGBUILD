@@ -38,7 +38,7 @@ build() {
 package() {
   install -dm755 "$pkgdir/usr/share/$_pkgname/"
   cd $_pkgname-$pkgver
-  for i in public conf tools; do
+  for i in public tools; do
     cp -r "$i" "$pkgdir/usr/share/$_pkgname/$i"
   done
 }
