@@ -16,7 +16,6 @@ depends=('glibc' "grafana-frontend=$pkgver")
 makedepends=('go-pie')
 backup=('etc/grafana.ini')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
-	'0001-Build-without-PhantomJS.patch'
 	'0002-build-allow-to-specify-commit-hash.patch'
 	'grafana.service'
 	'grafana.sysusers'
@@ -24,7 +23,6 @@ source=("$pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$p
 	'nginx-grafana.conf')
 noextract=("$pkgname-$pkgver.tar.gz")
 sha256sums=('148f8225bd23efbdb7046e30ffad2d53a71b448f1f143e5cfe1a71c5050b4056'
-            '797aafa111a994bacf06baf0763c74f0e190a8ab46aee27aab8b65f1ef05cf2d'
             'c1b0070d318df0d94420a74078ef88402cbd5c76b480872a5f6ed23f539eecb0'
             'debe84c19f1ed5a78d4fa2a664e66f04e08212803505fd9ff67b72260c98fed9'
             'bcb2d35f41dcb6a9c8240bc8fe89e78ed270a6b5307d9b46f2bf59b0c7554a2b'

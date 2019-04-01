@@ -14,8 +14,20 @@ arch=('any')
 license=('Apache')
 depends=('freetype2' 'fontconfig' 'gsfonts')
 makedepends=('npm' 'grunt-cli' 'python2')
-source=("$_pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz")
-sha256sums=('148f8225bd23efbdb7046e30ffad2d53a71b448f1f143e5cfe1a71c5050b4056')
+source=("$_pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
+	'0001-Build-without-PhantomJS.patch')
+sha256sums=('148f8225bd23efbdb7046e30ffad2d53a71b448f1f143e5cfe1a71c5050b4056'
+            '797aafa111a994bacf06baf0763c74f0e190a8ab46aee27aab8b65f1ef05cf2d')
+
+prepare() {
+  cd "$_pkgname-$pkgver"
+  for f in "${source[@]}"; do
+    if [[ "$f" =~ \.patch$ ]]; then
+      msg2 "Applying patch ${f##*/}"
+      git apply "$srcdir/${f##*/}"
+    fi
+  done
+}
 
 build() {
   msg2 'Cache setup'
