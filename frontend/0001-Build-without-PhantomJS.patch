@@ -1,22 +1,22 @@
-From 1b66a74a59c855c241133d5feebb4c980383a603 Mon Sep 17 00:00:00 2001
+From c207bca8d49680bdba4a749685ad7b3f014160df Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
-Date: Mon, 25 Mar 2019 11:44:11 +0100
+Date: Sun, 7 Apr 2019 08:32:44 +0200
 Subject: [PATCH 1/2] Build without PhantomJS
 
 Signed-off-by: Edmunt Pienkowsky <roed@onet.eu>
 
 diff --git a/package.json b/package.json
-index 930ba15e3..966543626 100644
+index a488c803a..76a782504 100644
 --- a/package.json
 +++ b/package.json
-@@ -79,7 +79,6 @@
-     "node-sass": "^4.11.0",
-     "npm": "^5.4.2",
-     "optimize-css-assets-webpack-plugin": "^4.0.2",
+@@ -90,7 +90,6 @@
+     "npm": "^6.9.0",
+     "optimize-css-assets-webpack-plugin": "^5.0.1",
+     "ora": "^3.2.0",
 -    "phantomjs-prebuilt": "^2.1.15",
      "postcss-browser-reporter": "^0.5.0",
-     "postcss-loader": "^2.0.6",
-     "postcss-reporter": "^5.0.0",
+     "postcss-loader": "^3.0.0",
+     "postcss-reporter": "^6.0.1",
 diff --git a/scripts/grunt/build_task.js b/scripts/grunt/build_task.js
 index ca64c8d6f..41f9b679e 100644
 --- a/scripts/grunt/build_task.js
@@ -30,7 +30,7 @@ index ca64c8d6f..41f9b679e 100644
    ]);
  
 diff --git a/scripts/grunt/default_task.js b/scripts/grunt/default_task.js
-index 8a71ea266..d7b273de5 100644
+index a656e0c60..5dfcc19f4 100644
 --- a/scripts/grunt/default_task.js
 +++ b/scripts/grunt/default_task.js
 @@ -4,7 +4,6 @@ module.exports = function (grunt) {
