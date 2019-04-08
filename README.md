@@ -30,7 +30,7 @@ In order to build **Grafana** packages for ARM architectures you need:
      ~~~
    - Change *root_url*.
      ~~~
-     root_url = %(protocol)s://%(domain)s/grafana/
+     root_url = http://%(domain)s/grafana/
      ~~~
    - Specify *domain*.
      ~~~
