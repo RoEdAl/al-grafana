@@ -1,4 +1,4 @@
-From c12ca84e7e07b4329768416210223bc64bd073b6 Mon Sep 17 00:00:00 2001
+From cbe9ae2ed995ebad2dba34e31356c5345c27a6cc Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
 Date: Fri, 29 Mar 2019 10:51:10 +0100
 Subject: [PATCH 2/2] build: allow to specify commit hash
@@ -8,10 +8,10 @@ Via environment variable GRAFANA_COMMIT.
 Signed-off-by: Edmunt Pienkowsky <roed@onet.eu>
 
 diff --git a/build.go b/build.go
-index 3a9a7598b..9bf1736eb 100644
+index 6cfa79ea7..bcc80c828 100644
 --- a/build.go
 +++ b/build.go
-@@ -570,7 +570,7 @@ func getGitBranch() string {
+@@ -586,7 +586,7 @@ func getGitBranch() string {
  func getGitSha() string {
  	v, err := runError("git", "rev-parse", "--short", "HEAD")
  	if err != nil {
@@ -21,5 +21,5 @@ index 3a9a7598b..9bf1736eb 100644
  	return string(v)
  }
 -- 
-2.21.0
+2.22.0
 
