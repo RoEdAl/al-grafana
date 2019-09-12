@@ -1,7 +1,7 @@
-From cbe9ae2ed995ebad2dba34e31356c5345c27a6cc Mon Sep 17 00:00:00 2001
+From c2b91832c60c0a554fbcea866b35d50de9cde1ae Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
 Date: Fri, 29 Mar 2019 10:51:10 +0100
-Subject: [PATCH 2/2] build: allow to specify commit hash
+Subject: [PATCH 2/3] build: allow to specify commit hash
 
 Via environment variable GRAFANA_COMMIT.
 
@@ -21,5 +21,5 @@ index 6cfa79ea7..bcc80c828 100644
  	return string(v)
  }
 -- 
-2.22.0
+2.23.0
 
