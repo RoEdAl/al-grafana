@@ -7,7 +7,7 @@
 pkgname=grafana-frontend
 _pkgname=grafana
 pkgver=6.4.1
-pkgrel=1
+pkgrel=2
 pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB - Frontend'
 url='https://grafana.com/'
 arch=('any')
@@ -31,20 +31,33 @@ prepare() {
 
 build() {
   msg2 'Cache setup'
-  export YARN_CACHE_FOLDER="$srcdir/cache/yarn"
-  local GYPTMP="$srcdir/tmp/gyp"
+  local yarn_cache_folder="$srcdir/tmp/yarn"
+  local npm_config_devdir="$srcdir/tmp/gyp"
+  local npm_config_prefix="$srcdir/tmp/npm"
   local NODETMP="$srcdir/tmp/node"
-  mkdir -p "$GYPTMP"
+  mkdir -p "$yarn_cache_folder"
+  mkdir -p "$npm_config_devdir"
+  mkdir -p "$npm_config_prefix"
   mkdir -p "$NODETMP"
-  mkdir -p "$YARN_CACHE_FOLDER"
 
   msg2 'Building the frontend'
-  local npm_config_prefix="$srcdir/npm"
-  export PATH+=":$npm_config_prefix/bin"
   cd $_pkgname-$pkgver
-  env npm_config_devdir="$GYPTMP" npm_config_prefix="$npm_config_prefix" TMPDIR="$NODETMP" npm install -g yarn
-  env npm_config_devdir="$GYPTMP" npm_config_prefix="$npm_config_prefix" TMPDIR="$NODETMP" yarn install --pure-lockfile --no-progress --network-concurrency=1 --network-timeout=60000
-  env npm_config_devdir="$GYPTMP" npm_config_prefix="$npm_config_prefix" TMPDIR="$NODETMP" npm run build release
+  env \
+    npm_config_devdir="$npm_config_devdir" \
+    npm_config_prefix="$npm_config_prefix" \
+    TMPDIR="$NODETMP" \
+    npm --no-progress --loglevel error install --no-package-lock --no-save yarn
+  env \
+    npm_config_devdir="$npm_config_devdir" \
+    npm_config_prefix="$npm_config_prefix" \
+    YARN_CACHE_FOLDER="$yarn_cache_folder" \
+    TMPDIR="$NODETMP" \
+    npx yarn install --pure-lockfile --no-progress --network-concurrency=1 --network-timeout=60000
+  env \
+    npm_config_devdir="$npm_config_devdir" \
+    npm_config_prefix="$npm_config_prefix" \
+    TMPDIR="$NODETMP" \
+    npm run build release
 }
 
 package() {
