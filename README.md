@@ -1,7 +1,7 @@
 # Grafana - Arch Linux packages for ARM architectures
 
 Grafana without [PhantomJS](//aur.archlinux.org/packages/phantomjs/) - 
-you may try [grafana-image-renderer](//github.com/grafana/grafana-image-renderer) instead.
+you may try [grafana-image-renderer](//github.com/RoEdAl/al-grafana-image-renderer) instead.
 
 Two separate packages:
 - `grafana-frontend` - platform-agnostic, build on **fast machine** (PC);
