@@ -6,18 +6,18 @@
 
 pkgname=grafana-frontend
 _pkgname=grafana
-pkgver=6.4.1
-pkgrel=2
+pkgver=6.4.2
+pkgrel=1
 pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB - Frontend'
 url='https://grafana.com/'
 arch=('any')
 license=('Apache')
-depends=('freetype2' 'fontconfig' 'gsfonts')
-makedepends=('npm' 'grunt-cli' 'python2')
+depends=()
+makedepends=('yarn' 'python2' 'nodejs-lts-dubnium')
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
 	'0001-Build-without-PhantomJS.patch')
-sha256sums=('09321ab504cb2e8c238743e0dfed44cef11f6c6df4e087ab8124ed15dc0e03f5'
-            'e2df728d3d9beb3c03ea768fbedd704ea6229ada96c6b9bfb941e50851b78a0b')
+sha256sums=('28f961f7b2c68e5961561fca99dd02a03382503a6179df9b62487df2501e171f'
+            '521275f69318ea14c77d16a294160eaf4336ddeea44f5504789759e573232002')
 
 prepare() {
   cd "$_pkgname-$pkgver"
@@ -45,19 +45,14 @@ build() {
   env \
     npm_config_devdir="$npm_config_devdir" \
     npm_config_prefix="$npm_config_prefix" \
-    TMPDIR="$NODETMP" \
-    npm --no-progress --loglevel error install --no-package-lock --no-save yarn
-  env \
-    npm_config_devdir="$npm_config_devdir" \
-    npm_config_prefix="$npm_config_prefix" \
     YARN_CACHE_FOLDER="$yarn_cache_folder" \
     TMPDIR="$NODETMP" \
-    npx yarn install --pure-lockfile --no-progress --network-concurrency=1 --network-timeout=60000
+    yarn install --pure-lockfile --no-progress --network-concurrency=1 --network-timeout=60000
   env \
     npm_config_devdir="$npm_config_devdir" \
     npm_config_prefix="$npm_config_prefix" \
     TMPDIR="$NODETMP" \
-    npm run build release
+    yarn run build release
 }
 
 package() {

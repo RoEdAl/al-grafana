@@ -1,4 +1,4 @@
-From 55b271ff7f5bd7f2aa4290b10b8bce45560bc6b2 Mon Sep 17 00:00:00 2001
+From af194286b44f24e34cfb724fe391eff7e9e024a9 Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
 Date: Thu, 3 Oct 2019 13:18:28 +0200
 Subject: [PATCH 3/3] Compile backend using golang v1.13

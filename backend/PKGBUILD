@@ -5,9 +5,9 @@
 # You may try http://github.com/grafana/grafana-image-renderer plugin instead.
 
 pkgname=grafana
-pkgver=6.4.1
+pkgver=6.4.2
 pkgrel=1
-_commit_short=fdd2117-al
+_commit_short=443a0ba-al
 pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB'
 url='https://grafana.com/'
 arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
@@ -23,9 +23,9 @@ source=("$pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$p
 	'grafana.tmpfiles'
 	'nginx-grafana.conf')
 noextract=("$pkgname-$pkgver.tar.gz")
-sha256sums=('09321ab504cb2e8c238743e0dfed44cef11f6c6df4e087ab8124ed15dc0e03f5'
-            'f44a78006e25c5e4510ec932fadff7c6945ce05a9371d69c8ce7a820ab4cfc12'
-            '1adaf624350736657ce531adc280561a01163aea90645cb6ff5e87e786579f12'
+sha256sums=('28f961f7b2c68e5961561fca99dd02a03382503a6179df9b62487df2501e171f'
+            'f1d529b3df1c48141ccd47fd9c07169e132da795be156d7a7e0869a408da993c'
+            'e9fdb77e6c0871fd03fa94f1a8823a9d52044556a9f410d194fcec953355a242'
             'debe84c19f1ed5a78d4fa2a664e66f04e08212803505fd9ff67b72260c98fed9'
             'bcb2d35f41dcb6a9c8240bc8fe89e78ed270a6b5307d9b46f2bf59b0c7554a2b'
             'ac3f4c95c2bedafa5d845b0ef086bbf4c943f5b8a828d92698da24f0e2a4db38'
@@ -66,14 +66,33 @@ prepare() {
 }
 
 build() {
-  local GOCACHE="$srcdir/cache/go"
+  local GOCACHE="$srcdir/tmp/cache"
   local GOTMP="$srcdir/tmp/go"
   local GOPATH="$srcdir/gopath"
+  mkdir -p $GOCACHE
+  mkdir -p $GOTMP
+  mkdir -p $GOPATH
 
   msg2 'Building the backend'
   cd "$GOPATH/src/github.com/$pkgname/$pkgname"
-  env PATH="$PATH:$GOPATH/bin" TMPDIR="$GOTMP" GOCACHE="$GOCACHE" GOPATH="$GOPATH" GOTMPDIR="$GOTMP" GOROOT_FINAL=/usr/lib/go GRAFANA_COMMIT="$_commit_short" go run build.go setup
-  env PATH="$PATH:$GOPATH/bin" TMPDIR="$GOTMP" GOCACHE="$GOCACHE" GOPATH="$GOPATH" GOTMPDIR="$GOTMP" GOROOT_FINAL=/usr/lib/go GRAFANA_COMMIT="$_commit_short" go run build.go build
+  env \
+    PATH="$PATH:$GOPATH/bin" \
+    TMPDIR="$GOTMP" \
+    GOCACHE="$GOCACHE" \
+    GOPATH="$GOPATH" \
+    GOTMPDIR="$GOTMP" \
+    GOROOT_FINAL=/usr/lib/go \
+    GRAFANA_COMMIT="$_commit_short" \
+    go run build.go setup
+  env \
+    PATH="$PATH:$GOPATH/bin" \
+    TMPDIR="$GOTMP" \
+    GOCACHE="$GOCACHE" \
+    GOPATH="$GOPATH" \
+    GOTMPDIR="$GOTMP" \
+    GOROOT_FINAL=/usr/lib/go \
+    GRAFANA_COMMIT="$_commit_short" \
+    go run build.go build
 }
 
 package() {
