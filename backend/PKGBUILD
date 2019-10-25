@@ -5,15 +5,15 @@
 # You may try http://github.com/grafana/grafana-image-renderer plugin instead.
 
 pkgname=grafana
-pkgver=6.4.2
+pkgver=6.4.3
 pkgrel=1
-_commit_short=443a0ba-al
+_commit_short=3a2bfb7-al
 pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB'
 url='https://grafana.com/'
 arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
 license=('Apache')
-depends=('glibc' "grafana-frontend=$pkgver")
-makedepends=('go-pie')
+depends=('glibc')
+makedepends=('go-pie' "${pkgname}-frontend=${pkgver}")
 backup=('etc/grafana.ini')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
 	'0002-build-allow-to-specify-commit-hash.patch'
@@ -23,9 +23,9 @@ source=("$pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$p
 	'grafana.tmpfiles'
 	'nginx-grafana.conf')
 noextract=("$pkgname-$pkgver.tar.gz")
-sha256sums=('28f961f7b2c68e5961561fca99dd02a03382503a6179df9b62487df2501e171f'
-            'f1d529b3df1c48141ccd47fd9c07169e132da795be156d7a7e0869a408da993c'
-            'e9fdb77e6c0871fd03fa94f1a8823a9d52044556a9f410d194fcec953355a242'
+sha256sums=('2ed2bbaae731c0d168800ed41af2bd18e3df50abb6c9852347d4488a5cc8d63b'
+            '4c2e90ab3f366bd44158b3e85faf12966f5a9ece1aa3593c72886d7c594dcc45'
+            'e09adc9314e5ed592a025d0efd888bcfd7d1c5cb4234b4afc88a0f2e0bc76319'
             'debe84c19f1ed5a78d4fa2a664e66f04e08212803505fd9ff67b72260c98fed9'
             'bcb2d35f41dcb6a9c8240bc8fe89e78ed270a6b5307d9b46f2bf59b0c7554a2b'
             'ac3f4c95c2bedafa5d845b0ef086bbf4c943f5b8a828d92698da24f0e2a4db38'
@@ -118,4 +118,9 @@ package() {
   install -Dm644 conf/defaults.ini "$pkgdir/usr/share/$pkgname/conf/defaults.ini"
   install -dm755 "$pkgdir/usr/share/$pkgname/"
   install -Dm644 "$srcdir/nginx-grafana.conf" "$pkgdir/usr/share/$pkgname/conf/nginx-grafana.conf"
+
+  # frontend
+  for i in public tools; do
+    cp -r "/usr/share/${pkgname}-frontend/${i}" "$pkgdir/usr/share/$pkgname/$i"
+  done
 }

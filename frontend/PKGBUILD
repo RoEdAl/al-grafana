@@ -6,7 +6,7 @@
 
 pkgname=grafana-frontend
 _pkgname=grafana
-pkgver=6.4.2
+pkgver=6.4.3
 pkgrel=1
 pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB - Frontend'
 url='https://grafana.com/'
@@ -14,10 +14,11 @@ arch=('any')
 license=('Apache')
 depends=()
 makedepends=('yarn' 'python2' 'nodejs-lts-dubnium')
+options=(!strip)
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
 	'0001-Build-without-PhantomJS.patch')
-sha256sums=('28f961f7b2c68e5961561fca99dd02a03382503a6179df9b62487df2501e171f'
-            '521275f69318ea14c77d16a294160eaf4336ddeea44f5504789759e573232002')
+sha256sums=('2ed2bbaae731c0d168800ed41af2bd18e3df50abb6c9852347d4488a5cc8d63b'
+            'b578e246f4571bf42c556d7746286c261934aa1cd0fdf3305cef7f6d610e7f3b')
 
 prepare() {
   cd "$_pkgname-$pkgver"
@@ -56,9 +57,9 @@ build() {
 }
 
 package() {
-  install -dm755 "$pkgdir/usr/share/$_pkgname/"
+  install -dm755 "$pkgdir/usr/share/$pkgname/"
   cd $_pkgname-$pkgver
   for i in public tools; do
-    cp -r "$i" "$pkgdir/usr/share/$_pkgname/$i"
+    cp -r "$i" "$pkgdir/usr/share/$pkgname/$i"
   done
 }
