@@ -6,7 +6,7 @@
 
 pkgname=grafana-frontend
 _pkgname=grafana
-pkgver=6.4.4
+pkgver=6.5.2
 pkgrel=1
 pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB - Frontend'
 url='https://grafana.com/'
@@ -17,8 +17,8 @@ makedepends=('yarn' 'python2' 'nodejs-lts-dubnium')
 options=(!strip)
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
 	'0001-Build-without-PhantomJS.patch')
-sha256sums=('fad788bb4f8c4cef776a906603e5277955b6f63e150d34928980892abc5cc651'
-            'b578e246f4571bf42c556d7746286c261934aa1cd0fdf3305cef7f6d610e7f3b')
+sha256sums=('3c60234fbcc7417f2acdf980a2299bc934a3ba8a42bd1b6a0186c882b334b77e'
+            '8b104dad0ca12a71841cac632d6a30e1ecebbbe5bd84b7445da8fb9a909b130d')
 
 prepare() {
   cd "$_pkgname-$pkgver"
@@ -60,6 +60,7 @@ package() {
   install -dm755 "$pkgdir/usr/share/$pkgname/"
   cd $_pkgname-$pkgver
   for i in public tools; do
+    [[ -d "$i" ]] || continue
     cp -r "$i" "$pkgdir/usr/share/$pkgname/$i"
   done
 }

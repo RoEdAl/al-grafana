@@ -1,15 +1,14 @@
-From fe6ce1c8b7427ba9c0f54776750586e1563f659d Mon Sep 17 00:00:00 2001
+From c01adb374e55c1578a175b1fff2fe6179689ea59 Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
-Date: Thu, 3 Oct 2019 13:14:59 +0200
-Subject: [PATCH 1/3] Build without PhantomJS
+Date: Sun, 22 Dec 2019 13:02:28 +0100
+Subject: [PATCH 1/2] Build without PhantomJS
 
-Signed-off-by: Edmunt Pienkowsky <roed@onet.eu>
 
 diff --git a/package.json b/package.json
-index 9e02f14d2..316fbb9db 100644
+index 26eabe411..daf940869 100644
 --- a/package.json
 +++ b/package.json
-@@ -109,7 +109,6 @@
+@@ -111,7 +111,6 @@
      "node-sass": "4.12.0",
      "npm": "6.9.0",
      "optimize-css-assets-webpack-plugin": "5.0.1",
@@ -30,14 +29,16 @@ index ca64c8d6f..41f9b679e 100644
    ]);
  
 diff --git a/scripts/grunt/default_task.js b/scripts/grunt/default_task.js
-index 7201bea84..2f347a3b7 100644
+index 7201bea84..51b0287b7 100644
 --- a/scripts/grunt/default_task.js
 +++ b/scripts/grunt/default_task.js
-@@ -5,7 +5,6 @@ module.exports = function(grunt) {
+@@ -4,8 +4,7 @@ module.exports = function(grunt) {
+ 
    // prettier-ignore
    grunt.registerTask('default', [
-     'clean:build',
+-    'clean:build',
 -    'phantomjs',
++    'clean:build'
    ]);
  
    // prettier-ignore
@@ -84,19 +85,94 @@ index 8c4e8dbd2..000000000
 -
 -  });
 -};
-diff --git a/scripts/grunt/release_task.js b/scripts/grunt/release_task.js
-index f24ec6420..cb10bb6b8 100644
---- a/scripts/grunt/release_task.js
-+++ b/scripts/grunt/release_task.js
-@@ -33,7 +33,7 @@ module.exports = function(grunt) {
-     });
-     grunt.config('copy.backend_files', {
-       expand: true,
--      src: ['conf/**', 'tools/phantomjs/*', 'scripts/*'],
-+      src: ['conf/**', 'scripts/*'],
-       options: { mode: true},
-       dest: '<%= tempDir %>'
-     });
+diff --git a/tools/phantomjs/render.js b/tools/phantomjs/render.js
+deleted file mode 100644
+index d0fb02344..000000000
+--- a/tools/phantomjs/render.js
++++ /dev/null
+@@ -1,82 +0,0 @@
+-(function() {
+-    'use strict';
+-
+-    var page = require('webpage').create();
+-    var args = require('system').args;
+-    var params = {};
+-    var regexp = /^([^=]+)=([^$]+)/;
+-
+-    args.forEach(function(arg) {
+-      var parts = arg.match(regexp);
+-      if (!parts) { return; }
+-      params[parts[1]] = parts[2];
+-    });
+-
+-    var usage = "url=<url> png=<filename> width=<width> height=<height> renderKey=<key>";
+-
+-    if (!params.url || !params.png ||  !params.renderKey || !params.domain) {
+-      console.log(usage);
+-      phantom.exit();
+-    }
+-
+-    phantom.addCookie({
+-      'name': 'renderKey',
+-      'value': params.renderKey,
+-      'domain': params.domain,
+-    });
+-
+-    page.viewportSize = {
+-      width: params.width || '800',
+-      height: params.height || '400'
+-    };
+-
+-    var timeoutMs = (parseInt(params.timeout) || 10) * 1000;
+-    var waitBetweenReadyCheckMs = 50;
+-    var totalWaitMs = 0;
+-
+-    page.open(params.url, function (status) {
+-      console.log('Loading a web page: ' + params.url + ' status: ' + status, timeoutMs);
+-
+-      page.onError = function(msg, trace) {
+-        var msgStack = ['ERROR: ' + msg];
+-        if (trace && trace.length) {
+-          msgStack.push('TRACE:');
+-          trace.forEach(function(t) {
+-            msgStack.push(' -> ' + t.file + ': ' + t.line + (t.function ? ' (in function "' + t.function +'")' : ''));
+-          });
+-        }
+-        console.error(msgStack.join('\n'));
+-      };
+-
+-      function checkIsReady() {
+-        var panelsRendered = page.evaluate(function() {
+-          var panelCount = document.querySelectorAll('plugin-component').length;
+-          return window.panelsRendered >= panelCount;
+-        });
+-
+-        if (panelsRendered || totalWaitMs > timeoutMs) {
+-          var bb = page.evaluate(function () {
+-            var container = document.getElementsByClassName("dashboard-container")
+-            if (container.length == 0) {
+-               container = document.getElementsByClassName("panel-container")
+-            }
+-            return container[0].getBoundingClientRect();
+-          });
+-          
+-          // reset viewport to render full page
+-          page.viewportSize = {
+-            width: bb.width,
+-            height: bb.height
+-          };
+-
+-          page.render(params.png);
+-          phantom.exit();
+-        } else {
+-          totalWaitMs += waitBetweenReadyCheckMs;
+-          setTimeout(checkIsReady, waitBetweenReadyCheckMs);
+-        }
+-      }
+-
+-      setTimeout(checkIsReady, waitBetweenReadyCheckMs);
+-    });
+-  })();
 -- 
-2.23.0
+2.24.1
 
