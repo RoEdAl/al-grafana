@@ -4,18 +4,9 @@ Grafana without [PhantomJS](//aur.archlinux.org/packages/phantomjs/) -
 you may try [grafana-image-renderer](//github.com/RoEdAl/al-grafana-image-renderer) instead.
 
 Two separate packages:
-- `grafana-frontend` - platform-agnostic, build on **fast machine** (PC);
-- `grafana` - golang binaries, platform-specific
 
-The separation is required because it is practically impossible to compile *frontend* on *Raspberry Pi Zero* or any other
-computer with limted RAM and slow CPU.
-
-## Requirements
-
-In order to build **Grafana** packages for ARM architectures you need:
-- a lot of RAM and big swap (2G or above),
-- fast storage,
-- a lot of time (4 hours or more) - frontend compilation (*WebPack*) is a really long process (build on a PC if possible).
+- `grafana-frontend` - platform-agnostic, must be build on a PC computer;
+- `grafana` - golang binaries, platform-specific.
 
 ## NGINX - Running Grafana behind a reverse proxy
 

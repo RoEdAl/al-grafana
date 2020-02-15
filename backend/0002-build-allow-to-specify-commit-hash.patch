@@ -1,11 +1,9 @@
-From 6261c3d267743e9693038516d46443fbcb5ec46c Mon Sep 17 00:00:00 2001
+From cbacc77b80984bba943a228d2a4a8a8a9c4a10ff Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
-Date: Fri, 29 Mar 2019 10:51:10 +0100
+Date: Sat, 15 Feb 2020 08:49:26 +0100
 Subject: [PATCH 2/2] build: allow to specify commit hash
 
-Via environment variable GRAFANA_COMMIT.
-
-Signed-off-by: Edmunt Pienkowsky <roed@onet.eu>
+via GRAFANA_COMMIT environment variable.
 
 diff --git a/build.go b/build.go
 index b947be43a..9c5787377 100644
@@ -21,5 +19,5 @@ index b947be43a..9c5787377 100644
  	return string(v)
  }
 -- 
-2.24.1
+2.25.0
 
