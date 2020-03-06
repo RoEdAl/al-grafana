@@ -1,4 +1,4 @@
-From cbacc77b80984bba943a228d2a4a8a8a9c4a10ff Mon Sep 17 00:00:00 2001
+From b1f0c5af26974b1333b164213d19ffe825cec062 Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
 Date: Sat, 15 Feb 2020 08:49:26 +0100
 Subject: [PATCH 2/2] build: allow to specify commit hash
@@ -19,5 +19,5 @@ index b947be43a..9c5787377 100644
  	return string(v)
  }
 -- 
-2.25.0
+2.25.1
 
