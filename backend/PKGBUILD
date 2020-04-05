@@ -5,9 +5,12 @@
 # You may try http://github.com/grafana/grafana-image-renderer plugin instead.
 
 pkgname=grafana
-pkgver=6.7.1
+pkgver=6.7.2
 pkgrel=1
-_commit_short=ca6d08d-al
+# _commit_short=$(git rev-parse --short HEAD)
+_commit_short=423a25fc32
+# _commit_epoch=$(git show -s --format=%ct)
+_commit_epoch=1585814576
 pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB'
 url='https://grafana.com/'
 arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
@@ -22,8 +25,8 @@ source=("$pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$p
 	'grafana.tmpfiles'
 	'nginx-grafana.conf')
 noextract=("$pkgname-$pkgver.tar.gz")
-sha256sums=('5750d286273069a195679d5586e810b0ca8cdd08ee07dcdd9b52cfaac8c62b89'
-            '3ba19d8a64378d166ebbe186ef7537724319c4a1c0eb2620946ef8f92e271896'
+sha256sums=('dc81cdb77c1c0ae99ae3302a0ef8b3d577f4a717208a90df65da8fcb282122fc'
+            '537543d906c044002520a03be58d521ad0c94a953cc5af04d84a39016b2506b6'
             'debe84c19f1ed5a78d4fa2a664e66f04e08212803505fd9ff67b72260c98fed9'
             'bcb2d35f41dcb6a9c8240bc8fe89e78ed270a6b5307d9b46f2bf59b0c7554a2b'
             'ac3f4c95c2bedafa5d845b0ef086bbf4c943f5b8a828d92698da24f0e2a4db38'
@@ -81,6 +84,7 @@ build() {
     GOTMPDIR="$GOTMP" \
     GOROOT_FINAL=/usr/lib/go \
     GRAFANA_COMMIT="$_commit_short" \
+    SOURCE_DATE_EPOCH=$_commit_epoch \
     go run build.go setup
   env \
     PATH="$PATH:$GOPATH/bin" \
@@ -90,6 +94,7 @@ build() {
     GOTMPDIR="$GOTMP" \
     GOROOT_FINAL=/usr/lib/go \
     GRAFANA_COMMIT="$_commit_short" \
+    SOURCE_DATE_EPOCH=$_commit_epoch \
     go run build.go build
 }
 
