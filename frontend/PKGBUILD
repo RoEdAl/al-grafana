@@ -13,7 +13,7 @@ url='https://grafana.com/'
 arch=('any')
 license=('Apache')
 depends=()
-makedepends=('yarn' 'python2' 'nodejs-lts-erbium')
+makedepends=('yarn' 'python' 'nodejs-lts-erbium')
 options=(!strip)
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
 	'0001-Build-without-PhantomJS.patch')
