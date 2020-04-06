@@ -1,7 +1,7 @@
 From f7ceae949a4e358ae67a50e50fe3b87e6f57087b Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
 Date: Sat, 15 Feb 2020 08:49:26 +0100
-Subject: [PATCH 2/3] build: allow to specify commit hash
+Subject: [PATCH 2/4] build: allow to specify commit hash
 
 via GRAFANA_COMMIT environment variable.
 
