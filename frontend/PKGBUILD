@@ -18,7 +18,7 @@ options=(!strip)
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
 	'0001-Build-without-PhantomJS.patch')
 sha256sums=('dc81cdb77c1c0ae99ae3302a0ef8b3d577f4a717208a90df65da8fcb282122fc'
-            '14d7f57f6294e824d8f151ea1327845de735760a32afffc03e6ec550762dacba')
+            'b3d159d1090ec8afb73f61a65136dcb924479663f14bd8795cfedc423783ab9e')
 
 prepare() {
   cd "$_pkgname-$pkgver"

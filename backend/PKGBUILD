@@ -16,17 +16,19 @@ url='https://grafana.com/'
 arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
 license=('Apache')
 depends=('glibc')
-makedepends=('go-pie' "${pkgname}-frontend=${pkgver}")
+makedepends=('go-pie>1.13' "${pkgname}-frontend=${pkgver}")
 backup=('etc/grafana.ini')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
 	'0002-build-allow-to-specify-commit-hash.patch'
+	'0003-Reproducible-build.patch'
 	'grafana.service'
 	'grafana.sysusers'
 	'grafana.tmpfiles'
 	'nginx-grafana.conf')
 noextract=("$pkgname-$pkgver.tar.gz")
 sha256sums=('dc81cdb77c1c0ae99ae3302a0ef8b3d577f4a717208a90df65da8fcb282122fc'
-            '537543d906c044002520a03be58d521ad0c94a953cc5af04d84a39016b2506b6'
+            '91a75d58c409f24c7cbdcb7c2300b99e88fd480e761a208341269c5f226cedaa'
+            '98eab6dc4a47e581df43f5dee8c530f1fa2fbd08ea9293b8536bad1addd55d1b'
             'debe84c19f1ed5a78d4fa2a664e66f04e08212803505fd9ff67b72260c98fed9'
             'bcb2d35f41dcb6a9c8240bc8fe89e78ed270a6b5307d9b46f2bf59b0c7554a2b'
             'ac3f4c95c2bedafa5d845b0ef086bbf4c943f5b8a828d92698da24f0e2a4db38'
@@ -85,6 +87,9 @@ build() {
     GOROOT_FINAL=/usr/lib/go \
     GRAFANA_COMMIT="$_commit_short" \
     SOURCE_DATE_EPOCH=$_commit_epoch \
+    CGO_CPPFLAGS="${CPPFLAGS}" \
+    CGO_CFLAGS="${CFLAGS}" \
+    CGO_CXXFLAGS="${CXXFLAGS}" \
     go run build.go setup
   env \
     PATH="$PATH:$GOPATH/bin" \
@@ -95,6 +100,9 @@ build() {
     GOROOT_FINAL=/usr/lib/go \
     GRAFANA_COMMIT="$_commit_short" \
     SOURCE_DATE_EPOCH=$_commit_epoch \
+    CGO_CPPFLAGS="${CPPFLAGS}" \
+    CGO_CFLAGS="${CFLAGS}" \
+    CGO_CXXFLAGS="${CXXFLAGS}" \
     go run build.go build
 }
 
