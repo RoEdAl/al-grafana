@@ -1,4 +1,4 @@
-From 78b3b7307af629276f392e038ee0e9485683ae0c Mon Sep 17 00:00:00 2001
+From 4f167ef23056e873ee73292953129a788379a478 Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
 Date: Mon, 6 Apr 2020 08:08:24 +0200
 Subject: [PATCH 3/4] Reproducible build
@@ -25,5 +25,5 @@ index 9c57873771..370c8c3b24 100644
  }
  
 -- 
-2.26.0
+2.26.2
 
