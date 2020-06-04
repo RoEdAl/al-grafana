@@ -16,7 +16,7 @@ url='https://grafana.com/'
 arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
 license=('Apache')
 depends=('glibc')
-makedepends=('go-pie>1.13' "${pkgname}-frontend=${pkgver}")
+makedepends=('go' "${pkgname}-frontend=${pkgver}")
 backup=('etc/grafana.ini')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
 	'0001-build-allow-to-specify-commit-hash.patch'
@@ -90,6 +90,7 @@ build() {
     CGO_CPPFLAGS="${CPPFLAGS}" \
     CGO_CFLAGS="${CFLAGS}" \
     CGO_CXXFLAGS="${CXXFLAGS}" \
+    GOFLAGS="-buildmode=pie -mod=readonly -modcacherw" \
     go run build.go setup
   env \
     PATH="$PATH:$GOPATH/bin" \
@@ -103,6 +104,7 @@ build() {
     CGO_CPPFLAGS="${CPPFLAGS}" \
     CGO_CFLAGS="${CFLAGS}" \
     CGO_CXXFLAGS="${CXXFLAGS}" \
+    GOFLAGS="-buildmode=pie -mod=readonly -modcacherw"
     go run build.go build
 }
 
