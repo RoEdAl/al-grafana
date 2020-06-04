@@ -1,22 +1,22 @@
-From 4f167ef23056e873ee73292953129a788379a478 Mon Sep 17 00:00:00 2001
+From 05d518705867f548c9a8123c7fc5c6f90d4bf2ef Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
-Date: Mon, 6 Apr 2020 08:08:24 +0200
-Subject: [PATCH 3/4] Reproducible build
+Date: Thu, 4 Jun 2020 09:54:05 +0200
+Subject: [PATCH 2/3] Reproducible build
 
 
 diff --git a/build.go b/build.go
-index 9c57873771..370c8c3b24 100644
+index 30295c3537..199fda877f 100644
 --- a/build.go
 +++ b/build.go
-@@ -513,6 +513,7 @@ func build(binaryName, pkg string, tags []string) {
- 		args = append(args, "-mod=vendor")
+@@ -502,6 +502,7 @@ func build(binaryName, pkg string, tags []string) {
+ 		args = append(args, "-race")
  	}
  
 +	args = append(args, "-trimpath")
  	args = append(args, "-o", binary)
  	args = append(args, pkg)
  
-@@ -548,6 +549,7 @@ func ldflags() string {
+@@ -537,6 +538,7 @@ func ldflags() string {
  	if v := os.Getenv("LDFLAGS"); v != "" {
  		b.WriteString(fmt.Sprintf(" -extldflags \"%s\"", v))
  	}
@@ -25,5 +25,5 @@ index 9c57873771..370c8c3b24 100644
  }
  
 -- 
-2.26.2
+2.27.0
 
