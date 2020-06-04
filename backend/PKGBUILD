@@ -104,7 +104,7 @@ build() {
     CGO_CPPFLAGS="${CPPFLAGS}" \
     CGO_CFLAGS="${CFLAGS}" \
     CGO_CXXFLAGS="${CXXFLAGS}" \
-    GOFLAGS="-buildmode=pie -mod=readonly -modcacherw"
+    GOFLAGS="-buildmode=pie -mod=readonly -modcacherw" \
     go run build.go build
 }
 
