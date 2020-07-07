@@ -5,12 +5,12 @@
 # You may try http://github.com/grafana/grafana-image-renderer plugin instead.
 
 pkgname=grafana
-pkgver=7.0.3
+pkgver=7.0.5
 pkgrel=1
 # _commit_short=$(git rev-parse --short HEAD)
-_commit_short=00ee734baf
+_commit_short=efbcbb838b
 # _commit_epoch=$(git show -s --format=%ct)
-_commit_epoch=1591197571
+_commit_epoch=1593521936
 pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB'
 url='https://grafana.com/'
 arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
@@ -21,14 +21,16 @@ backup=('etc/grafana.ini')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
 	'0001-build-allow-to-specify-commit-hash.patch'
 	'0002-Reproducible-build.patch'
+        '0004-Bump-package-version-to-7.0.5.patch'
 	'grafana.service'
 	'grafana.sysusers'
 	'grafana.tmpfiles'
 	'nginx-grafana.conf')
 noextract=("$pkgname-$pkgver.tar.gz")
-sha256sums=('c8ce7801ff3cfbb407722817b7be1967353546177981c25f97c260b1d2ceab8a'
-            '057dae47f9e928e8fb354f164d537a9252924d9be88cc8f28a1ae2ab0faecf38'
-            'c60c0c1a703797e03ad93f9af2f70e788d021ce6567e0f8110b975c5f491c318'
+sha256sums=('0c088e0018255628396889ed1459164ce5dc0e5539cb3ffb48aa729f8505b6fe'
+            '14a4fd41a09a465c4a3d30c6e04491de9405b74bd26b4d71d041c1292b18d039'
+            '8864b25974f5287092985efdcf4e95b0a07dd0d1211c22d083c351a2dc5c9027'
+            'cc2db106be5ae385a32985933101c1408651db6aea592d7fdc9e7457c7f6ffd3'
             'debe84c19f1ed5a78d4fa2a664e66f04e08212803505fd9ff67b72260c98fed9'
             'bcb2d35f41dcb6a9c8240bc8fe89e78ed270a6b5307d9b46f2bf59b0c7554a2b'
             'ac3f4c95c2bedafa5d845b0ef086bbf4c943f5b8a828d92698da24f0e2a4db38'

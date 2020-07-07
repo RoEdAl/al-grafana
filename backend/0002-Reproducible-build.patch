@@ -1,7 +1,7 @@
-From 05d518705867f548c9a8123c7fc5c6f90d4bf2ef Mon Sep 17 00:00:00 2001
+From 3fa5a202ff79f98b40392acc753c9b5d064d618f Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
 Date: Thu, 4 Jun 2020 09:54:05 +0200
-Subject: [PATCH 2/3] Reproducible build
+Subject: [PATCH 2/4] Reproducible build
 
 
 diff --git a/build.go b/build.go

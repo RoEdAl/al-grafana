@@ -1,0 +1,22 @@
+From 34f14130dd7506e0d02d9cf0ac6c284917ec5989 Mon Sep 17 00:00:00 2001
+From: Edmunt Pienkowsky <roed@onet.eu>
+Date: Tue, 7 Jul 2020 14:29:23 +0200
+Subject: [PATCH 4/4] Bump package version to 7.0.5
+
+
+diff --git a/package.json b/package.json
+index 04475e07c1..76bc791810 100644
+--- a/package.json
++++ b/package.json
+@@ -3,7 +3,7 @@
+   "license": "Apache-2.0",
+   "private": true,
+   "name": "grafana",
+-  "version": "7.0.4",
++  "version": "7.0.5",
+   "repository": "github:grafana/grafana",
+   "scripts": {
+     "api-tests": "jest --notify --watch --config=devenv/e2e-api-tests/jest.js",
+-- 
+2.27.0
+
