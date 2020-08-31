@@ -1,14 +1,14 @@
-From 3fa5a202ff79f98b40392acc753c9b5d064d618f Mon Sep 17 00:00:00 2001
+From fe8769c792ab17fe032b83a17dcd04df3dc1d8e7 Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
 Date: Thu, 4 Jun 2020 09:54:05 +0200
-Subject: [PATCH 2/4] Reproducible build
+Subject: [PATCH 2/3] Reproducible build
 
 
 diff --git a/build.go b/build.go
-index 30295c3537..199fda877f 100644
+index 26481038c5..8c725e9b85 100644
 --- a/build.go
 +++ b/build.go
-@@ -502,6 +502,7 @@ func build(binaryName, pkg string, tags []string) {
+@@ -489,6 +489,7 @@ func doBuild(binaryName, pkg string, tags []string) {
  		args = append(args, "-race")
  	}
  
@@ -16,7 +16,7 @@ index 30295c3537..199fda877f 100644
  	args = append(args, "-o", binary)
  	args = append(args, pkg)
  
-@@ -537,6 +538,7 @@ func ldflags() string {
+@@ -524,6 +525,7 @@ func ldflags() string {
  	if v := os.Getenv("LDFLAGS"); v != "" {
  		b.WriteString(fmt.Sprintf(" -extldflags \"%s\"", v))
  	}
@@ -25,5 +25,5 @@ index 30295c3537..199fda877f 100644
  }
  
 -- 
-2.27.0
+2.28.0
 

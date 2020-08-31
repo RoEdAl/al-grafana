@@ -1,11 +1,11 @@
-From e8993ddec90e7def38afaf815654190be8372a45 Mon Sep 17 00:00:00 2001
+From bc5bfb126bcd634dc46fcc6f7466b6e697931a4e Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
 Date: Mon, 6 Apr 2020 12:06:43 +0200
-Subject: [PATCH 3/4] Frontend - build without source map
+Subject: [PATCH 3/3] Frontend - build without source map
 
 
 diff --git a/scripts/webpack/webpack.prod.js b/scripts/webpack/webpack.prod.js
-index 4133b7be72..963ea41f76 100644
+index c8853cdf50..f7a34d2694 100644
 --- a/scripts/webpack/webpack.prod.js
 +++ b/scripts/webpack/webpack.prod.js
 @@ -11,7 +11,6 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -16,7 +16,7 @@ index 4133b7be72..963ea41f76 100644
  
    entry: {
      dark: './public/sass/grafana.dark.scss',
-@@ -86,8 +85,7 @@ module.exports = merge(common, {
+@@ -79,8 +78,7 @@ module.exports = merge(common, {
      minimizer: [
        new TerserPlugin({
          cache: false,
@@ -27,5 +27,5 @@ index 4133b7be72..963ea41f76 100644
        new OptimizeCSSAssetsPlugin({}),
      ],
 -- 
-2.27.0
+2.28.0
 
