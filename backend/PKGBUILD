@@ -7,8 +7,6 @@ pkgver=7.1.5
 pkgrel=1
 # _commit_short=$(git rev-parse --short HEAD)
 _commit_short=9893b8c53d
-# _commit_epoch=$(git show -s --format=%ct)
-_commit_epoch=1598344037
 pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB'
 url='https://grafana.com/'
 arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
@@ -70,40 +68,25 @@ build() {
   local GOCACHE="$srcdir/tmp/cache"
   local GOTMP="$srcdir/tmp/go"
   local GOPATH="$srcdir/gopath"
-  mkdir -p $GOCACHE
-  mkdir -p $GOTMP
-  mkdir -p $GOPATH
+
+  local -r ENV_ARGS=(
+    "PATH=$PATH:$GOPATH/bin"
+    TMPDIR="$GOTMP"
+    "GOCACHE=$GOCACHE"
+    "GOPATH=$GOPATH"
+    "GOTMPDIR=$GOTMP"
+    GOROOT_FINAL=/usr/lib/go
+    "GRAFANA_COMMIT=$_commit_short"
+    "CGO_CPPFLAGS=${CPPFLAGS}"
+    "CGO_CFLAGS=${CFLAGS}"
+    "CGO_CXXFLAGS=${CXXFLAGS}"
+    "GOFLAGS=-buildmode=pie -mod=readonly -modcacherw"
+  )
 
   msg2 'Building the backend'
   cd "$GOPATH/src/github.com/$pkgname/$pkgname"
-  env \
-    PATH="$PATH:$GOPATH/bin" \
-    TMPDIR="$GOTMP" \
-    GOCACHE="$GOCACHE" \
-    GOPATH="$GOPATH" \
-    GOTMPDIR="$GOTMP" \
-    GOROOT_FINAL=/usr/lib/go \
-    GRAFANA_COMMIT="$_commit_short" \
-    SOURCE_DATE_EPOCH=$_commit_epoch \
-    CGO_CPPFLAGS="${CPPFLAGS}" \
-    CGO_CFLAGS="${CFLAGS}" \
-    CGO_CXXFLAGS="${CXXFLAGS}" \
-    GOFLAGS="-buildmode=pie -mod=readonly -modcacherw" \
-    go run build.go setup
-  env \
-    PATH="$PATH:$GOPATH/bin" \
-    TMPDIR="$GOTMP" \
-    GOCACHE="$GOCACHE" \
-    GOPATH="$GOPATH" \
-    GOTMPDIR="$GOTMP" \
-    GOROOT_FINAL=/usr/lib/go \
-    GRAFANA_COMMIT="$_commit_short" \
-    SOURCE_DATE_EPOCH=$_commit_epoch \
-    CGO_CPPFLAGS="${CPPFLAGS}" \
-    CGO_CFLAGS="${CFLAGS}" \
-    CGO_CXXFLAGS="${CXXFLAGS}" \
-    GOFLAGS="-buildmode=pie -mod=readonly -modcacherw" \
-    go run build.go build
+  env "${ENV_ARGS[@]}" go run build.go setup
+  env "${ENV_ARGS[@]}" go run build.go build
 }
 
 package() {
