@@ -12,11 +12,10 @@ url='https://grafana.com/'
 arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
 license=('Apache')
 depends=('glibc')
-makedepends=('go' "${pkgname}-frontend=${pkgver}")
+makedepends=('go>=1.13.4' "${pkgname}-frontend=${pkgver}")
 backup=('etc/grafana.ini')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
 	'0001-build-allow-to-specify-commit-hash.patch'
-	'0002-Reproducible-build.patch'
 	'grafana.service'
 	'grafana.sysusers'
 	'grafana.tmpfiles'
@@ -24,7 +23,6 @@ source=("$pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$p
 noextract=("$pkgname-$pkgver.tar.gz")
 sha256sums=('7ae69011674a5b6a792e8ec84c93e8be9d50ad2e995cc63f3508d0b2e7acb754'
             'cb5d6bbc05f060a2bbd10ddfd0264f9ca7b1eb299172ce893a61125ea8b5ab16'
-            '67b19beb40bbfb9423655690c6e71cd1769598a2b1d9616819aee831dbdcf1b4'
             'debe84c19f1ed5a78d4fa2a664e66f04e08212803505fd9ff67b72260c98fed9'
             'bcb2d35f41dcb6a9c8240bc8fe89e78ed270a6b5307d9b46f2bf59b0c7554a2b'
             'ac3f4c95c2bedafa5d845b0ef086bbf4c943f5b8a828d92698da24f0e2a4db38'
@@ -80,7 +78,7 @@ build() {
     "CGO_CPPFLAGS=${CPPFLAGS}"
     "CGO_CFLAGS=${CFLAGS}"
     "CGO_CXXFLAGS=${CXXFLAGS}"
-    "GOFLAGS=-buildmode=pie -mod=readonly -modcacherw"
+    "GOFLAGS=-buildmode=pie -mod=readonly -modcacherw -trimpath"
   )
 
   msg2 'Building the backend'
