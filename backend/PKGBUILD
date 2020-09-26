@@ -3,10 +3,10 @@
 # Based on: http://www.archlinux.org/packages/community/x86_64/grafana/
 
 pkgname=grafana
-pkgver=7.1.5
+pkgver=7.2.0
 pkgrel=1
 # _commit_short=$(git rev-parse --short HEAD)
-_commit_short=9893b8c53d
+_commit_short=efe4941ee3
 pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB'
 url='https://grafana.com/'
 arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
@@ -21,8 +21,8 @@ source=("$pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$p
 	'grafana.tmpfiles'
 	'nginx-grafana.conf')
 noextract=("$pkgname-$pkgver.tar.gz")
-sha256sums=('7ae69011674a5b6a792e8ec84c93e8be9d50ad2e995cc63f3508d0b2e7acb754'
-            'cb5d6bbc05f060a2bbd10ddfd0264f9ca7b1eb299172ce893a61125ea8b5ab16'
+sha256sums=('76dc219f79b5a892458bb7bd4f2ff649b1671a0a9761cc8998395ef2946f7244'
+            'c5f0ad2ff2e37dcff9d3a956163dbd67029bb141db34172c17365440b27e0615'
             'debe84c19f1ed5a78d4fa2a664e66f04e08212803505fd9ff67b72260c98fed9'
             'bcb2d35f41dcb6a9c8240bc8fe89e78ed270a6b5307d9b46f2bf59b0c7554a2b'
             'ac3f4c95c2bedafa5d845b0ef086bbf4c943f5b8a828d92698da24f0e2a4db38'
@@ -78,7 +78,7 @@ build() {
     "CGO_CPPFLAGS=${CPPFLAGS}"
     "CGO_CFLAGS=${CFLAGS}"
     "CGO_CXXFLAGS=${CXXFLAGS}"
-    "GOFLAGS=-buildmode=pie -mod=readonly -modcacherw -trimpath"
+    "GOFLAGS=-buildmode=pie -modcacherw -trimpath"
   )
 
   msg2 'Building the backend'

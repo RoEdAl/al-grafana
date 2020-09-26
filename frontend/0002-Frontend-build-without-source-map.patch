@@ -1,11 +1,11 @@
-From bc5bfb126bcd634dc46fcc6f7466b6e697931a4e Mon Sep 17 00:00:00 2001
+From 63c5f7152a2fb6229f22760e07478520d8858411 Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
 Date: Mon, 6 Apr 2020 12:06:43 +0200
-Subject: [PATCH 3/3] Frontend - build without source map
+Subject: [PATCH 2/2] Frontend - build without source map
 
 
 diff --git a/scripts/webpack/webpack.prod.js b/scripts/webpack/webpack.prod.js
-index c8853cdf50..f7a34d2694 100644
+index 244b788dcf..93dd611d1c 100644
 --- a/scripts/webpack/webpack.prod.js
 +++ b/scripts/webpack/webpack.prod.js
 @@ -11,7 +11,6 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -26,6 +26,3 @@ index c8853cdf50..f7a34d2694 100644
        }),
        new OptimizeCSSAssetsPlugin({}),
      ],
--- 
-2.28.0
-
