@@ -1,4 +1,4 @@
-From 63c5f7152a2fb6229f22760e07478520d8858411 Mon Sep 17 00:00:00 2001
+From 360f08ac06867850ab9fec3ef5baf2122238042b Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
 Date: Mon, 6 Apr 2020 12:06:43 +0200
 Subject: [PATCH 2/2] Frontend - build without source map
