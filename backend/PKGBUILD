@@ -78,6 +78,7 @@ build() {
     "CGO_CPPFLAGS=${CPPFLAGS}"
     "CGO_CFLAGS=${CFLAGS}"
     "CGO_CXXFLAGS=${CXXFLAGS}"
+    "GOPROXY=https://goproxy.io"
     "GOFLAGS=-buildmode=pie -modcacherw -trimpath"
   )
 
