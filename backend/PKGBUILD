@@ -3,10 +3,10 @@
 # Based on: http://www.archlinux.org/packages/community/x86_64/grafana/
 
 pkgname=grafana
-pkgver=7.3.4
+pkgver=7.3.5
 pkgrel=1
 # _commit_short=$(git rev-parse --short HEAD)
-_commit_short=5cec4095b2
+_commit_short=11f305f88a
 pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB'
 url='https://grafana.com/'
 arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
@@ -21,8 +21,8 @@ source=("$pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$p
 	'grafana.tmpfiles'
 	'nginx-grafana.conf')
 noextract=("$pkgname-$pkgver.tar.gz")
-sha256sums=('4fcb46e1ab6e29b4384b401d5fd83303d8683d1d44b6a2e7bb6193abe283636d'
-            '2040db0d7cf2a17ec99533bb633455b49ec8ac126e21c6a9812bc58f619b2bc1'
+sha256sums=('c63cf5b24733261386777a91e34b2d7646965e4a9adcea64dca519c5bc2cbede'
+            '04f1a322447ebd1fbad2570d801479a774fe96077cb149d77ed15b37834884a7'
             'debe84c19f1ed5a78d4fa2a664e66f04e08212803505fd9ff67b72260c98fed9'
             'bcb2d35f41dcb6a9c8240bc8fe89e78ed270a6b5307d9b46f2bf59b0c7554a2b'
             'ac3f4c95c2bedafa5d845b0ef086bbf4c943f5b8a828d92698da24f0e2a4db38'
