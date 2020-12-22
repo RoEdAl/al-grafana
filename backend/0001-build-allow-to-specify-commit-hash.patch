@@ -1,4 +1,4 @@
-From b3ef840ddd303a61c3fe76384b75bba3bbfc30f5 Mon Sep 17 00:00:00 2001
+From e688f3dd5434f333513eb68203e9361bd83eb925 Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
 Date: Sat, 15 Feb 2020 08:49:26 +0100
 Subject: [PATCH 1/2] build: allow to specify commit hash
