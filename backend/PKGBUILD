@@ -3,10 +3,10 @@
 # Based on: http://www.archlinux.org/packages/community/x86_64/grafana/
 
 pkgname=grafana
-pkgver=7.3.7
+pkgver=7.4.1
 pkgrel=1
 # _commit_short=$(git rev-parse --short HEAD)
-_commit_short=1e261642f4
+_commit_short=07649d1313
 pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB'
 url='https://grafana.com/'
 arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
@@ -16,15 +16,13 @@ makedepends=('go>=1.13.4' "${pkgname}-frontend=${pkgver}")
 backup=('etc/grafana.ini')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
 	'0001-build-allow-to-specify-commit-hash.patch'
-	'0003-Bump-package-version-to-7.3.7.patch'
 	'grafana.service'
 	'grafana.sysusers'
 	'grafana.tmpfiles'
 	'nginx-grafana.conf')
 noextract=("$pkgname-$pkgver.tar.gz")
-sha256sums=('bba6900c9bbc221264d79852081596c3c8250470a5165e0b4be51cea419b3007'
-            '9a0c916da694f47dae7778a958688ac7853af64a5f93ac79eb4d35474f342746'
-            '3d767f62b6824a66f5302c4a020382d36930ad8956ad6590aa1c6541dcf689c6'
+sha256sums=('b316b55cbcbc8752f03617747d97b4ba0796b3388972d4466b6b5a028be1473e'
+            '83f75dae9fb72fd972d64b4f58dc4d2c99379359caa052cca6a01ac34ff75817'
             'debe84c19f1ed5a78d4fa2a664e66f04e08212803505fd9ff67b72260c98fed9'
             'bcb2d35f41dcb6a9c8240bc8fe89e78ed270a6b5307d9b46f2bf59b0c7554a2b'
             'ac3f4c95c2bedafa5d845b0ef086bbf4c943f5b8a828d92698da24f0e2a4db38'
@@ -80,7 +78,6 @@ build() {
     "CGO_CPPFLAGS=${CPPFLAGS}"
     "CGO_CFLAGS=${CFLAGS}"
     "CGO_CXXFLAGS=${CXXFLAGS}"
-    "GOPROXY=https://goproxy.io"
     "GOFLAGS=-buildmode=pie -modcacherw -trimpath"
   )
 

@@ -1,25 +1,23 @@
 # Maintainer: Edmunt Pienkowsky <roed@onet.eu>
 
 # Based on: http://www.archlinux.org/packages/community/x86_64/grafana/
-# Excluded PhantomJS library due to lack of prebuilt binaries for ARM architectures.
-# You may try http://github.com/grafana/grafana-image-renderer plugin instead.
 
 pkgname=grafana-frontend
 _pkgname=grafana
-pkgver=7.3.7
+pkgver=7.4.1
 pkgrel=1
 pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB - Frontend'
 url='https://grafana.com/'
 arch=('any')
 license=('Apache')
 depends=()
-makedepends=('yarn' 'python' 'nodejs-lts-erbium')
+makedepends=('yarn' 'python' 'nodejs')
 options=(!strip)
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
 	'0002-Frontend-build-without-source-map.patch'
 )
-sha256sums=('bba6900c9bbc221264d79852081596c3c8250470a5165e0b4be51cea419b3007'
-            'cd269a18007e41f569eb199ce73f04d211d247d5bea3ed7ab4d8c4e5e1269548')
+sha256sums=('b316b55cbcbc8752f03617747d97b4ba0796b3388972d4466b6b5a028be1473e'
+            '52d7c9fdf758bee8e17a6d46fa0a5bdd1cbfaaf24682de1ae4bd63a453a45b74')
 
 prepare() {
   cd "$_pkgname-$pkgver"
@@ -54,7 +52,8 @@ build() {
     npm_config_devdir="$npm_config_devdir" \
     npm_config_prefix="$npm_config_prefix" \
     TMPDIR="$NODETMP" \
-    yarn run build release
+    NODE_ENV=production \
+    yarn run build
 }
 
 package() {
