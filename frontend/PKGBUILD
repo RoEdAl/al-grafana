@@ -17,7 +17,7 @@ source=("$_pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$
 	'0002-Frontend-build-without-source-map.patch'
 )
 sha256sums=('fa8f88738cfaf731e4799716fdf6dea32b525ce8225e28eae7d9f13c07f39dfb'
-            '243fe06fa4d4f224706779e423f6f77c9ac14b3d929865ea3f670357874023d5')
+            '2ef6eafc5d132b8a8c13bb8173504603df592059b4e2d2f78f0b8df733997276')
 
 prepare() {
   cd "$_pkgname-$pkgver"

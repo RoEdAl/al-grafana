@@ -1,0 +1,37 @@
+From f6f4f9b53e0a705882f6aa1db5b3fec3a0fd444a Mon Sep 17 00:00:00 2001
+From: Edmunt Pienkowsky <roed@onet.eu>
+Date: Tue, 30 Mar 2021 16:06:54 +0200
+Subject: [PATCH 3/3] build.go - setup improvements
+
+Download and install packages required by grafana-cli tool.
+
+diff --git a/build.go b/build.go
+index 4ffaf5b8e5..0fdcde0b67 100644
+--- a/build.go
++++ b/build.go
+@@ -108,7 +108,9 @@ func main() {
+ 	for _, cmd := range flag.Args() {
+ 		switch cmd {
+ 		case "setup":
+-			setup()
++			for _, binary := range binaries {
++				doSetup("./pkg/cmd/"+binary)
++			}
+ 
+ 		case "build-srv", "build-server":
+ 			clean()
+@@ -218,12 +220,12 @@ func genPackageVersion() string {
+ 	}
+ }
+ 
+-func setup() {
++func doSetup(binaryName string) {
+ 	args := []string{"install", "-v"}
+ 	if goos == windows {
+ 		args = append(args, "-buildmode=exe")
+ 	}
+-	args = append(args, "./pkg/cmd/grafana-server")
++	args = append(args, binaryName)
+ 	runPrint("go", args...)
+ }
+ 
