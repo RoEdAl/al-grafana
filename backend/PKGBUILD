@@ -12,13 +12,13 @@ url='https://grafana.com/'
 arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
 license=('Apache')
 depends=('glibc')
-makedepends=('go>=1.13.4' "${pkgname}-frontend=${pkgver}")
+makedepends=('go>1.16' "${pkgname}-frontend=${pkgver}")
 backup=('etc/grafana.ini')
 _cli_v1_ver=1.22.5
 _cli_v2_ver=2.3.0
 source=("${pkgname}-${pkgver}.tar.gz::http://github.com/grafana/grafana/archive/v${pkgver}.tar.gz"
-	"http://github.com/urfave/cli/archive/refs/tags/v${_cli_v1_ver}.tar.gz"
-	"http://github.com/urfave/cli/archive/refs/tags/v${_cli_v2_ver}.tar.gz"
+	"cli-${_cli_v1_ver}.tar.gz::http://github.com/urfave/cli/archive/refs/tags/v${_cli_v1_ver}.tar.gz"
+	"cli-${_cli_v2_ver}.tar.gz::http://github.com/urfave/cli/archive/refs/tags/v${_cli_v2_ver}.tar.gz"
 	'0001-build-allow-to-specify-commit-hash.patch'
 	'0003-build.go-setup-improvements.patch'
 	'grafana.service'
