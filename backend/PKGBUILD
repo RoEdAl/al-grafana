@@ -14,15 +14,21 @@ license=('Apache')
 depends=('glibc')
 makedepends=('go>=1.13.4' "${pkgname}-frontend=${pkgver}")
 backup=('etc/grafana.ini')
-source=("$pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
+_cli_v1_ver=1.22.5
+_cli_v2_ver=2.3.0
+source=("${pkgname}-${pkgver}.tar.gz::http://github.com/grafana/grafana/archive/v${pkgver}.tar.gz"
+	"http://github.com/urfave/cli/archive/refs/tags/v${_cli_v1_ver}.tar.gz"
+	"http://github.com/urfave/cli/archive/refs/tags/v${_cli_v2_ver}.tar.gz"
 	'0001-build-allow-to-specify-commit-hash.patch'
 	'0003-build.go-setup-improvements.patch'
 	'grafana.service'
 	'grafana.sysusers'
 	'grafana.tmpfiles'
 	'nginx-grafana.conf')
-noextract=("$pkgname-$pkgver.tar.gz")
+noextract=("${pkgname}-${pkgver}.tar.gz")
 sha256sums=('fa8f88738cfaf731e4799716fdf6dea32b525ce8225e28eae7d9f13c07f39dfb'
+            '57138657dd61c81e21b52cfb1aa5c97ad5c9379197fa7fb550051e59056eb30f'
+            'b17376246f1477157daab86d4a1562d6b004f5be0d15dfc61ebd8bb129384e6b'
             'ef1bd6766c9aefb9550bab728de99ac0b96366c6512e5404a747998715a3ba3c'
             'fce01372eefd504e91cc1f049c476d9a08869a78c56c6d0ddcfc84e543cb854a'
             'debe84c19f1ed5a78d4fa2a664e66f04e08212803505fd9ff67b72260c98fed9'
@@ -85,6 +91,7 @@ build() {
 
   msg2 'Building the backend'
   cd "$GOPATH/src/github.com/$pkgname/$pkgname"
+  env "${ENV_ARGS[@]}" go mod edit "-replace=github.com/urfave/cli=${srcdir}/cli-${_cli_v1_ver}" "-replace=github.com/urfave/cli/v2=${srcdir}/cli-${_cli_v2_ver}"
   env "${ENV_ARGS[@]}" go run build.go setup
   env "${ENV_ARGS[@]}" go run build.go build
 }
