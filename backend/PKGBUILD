@@ -3,10 +3,10 @@
 # Based on: http://www.archlinux.org/packages/community/x86_64/grafana/
 
 pkgname=grafana
-pkgver=7.5.1
+pkgver=7.5.4
 pkgrel=1
 # _commit_short=$(git rev-parse --short HEAD)
-_commit_short=4dffb875cf
+_commit_short=615c153b3a
 pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB'
 url='https://grafana.com/'
 arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
@@ -14,11 +14,7 @@ license=('Apache')
 depends=('glibc')
 makedepends=('go>1.16' "${pkgname}-frontend=${pkgver}")
 backup=('etc/grafana.ini')
-_cli_v1_ver=1.22.5
-_cli_v2_ver=2.3.0
 source=("${pkgname}-${pkgver}.tar.gz::http://github.com/grafana/grafana/archive/v${pkgver}.tar.gz"
-	"cli-${_cli_v1_ver}.tar.gz::http://github.com/urfave/cli/archive/refs/tags/v${_cli_v1_ver}.tar.gz"
-	"cli-${_cli_v2_ver}.tar.gz::http://github.com/urfave/cli/archive/refs/tags/v${_cli_v2_ver}.tar.gz"
 	'0001-build-allow-to-specify-commit-hash.patch'
 	'0003-build.go-setup-improvements.patch'
 	'grafana.service'
@@ -26,11 +22,9 @@ source=("${pkgname}-${pkgver}.tar.gz::http://github.com/grafana/grafana/archive/
 	'grafana.tmpfiles'
 	'nginx-grafana.conf')
 noextract=("${pkgname}-${pkgver}.tar.gz")
-sha256sums=('fa8f88738cfaf731e4799716fdf6dea32b525ce8225e28eae7d9f13c07f39dfb'
-            '57138657dd61c81e21b52cfb1aa5c97ad5c9379197fa7fb550051e59056eb30f'
-            'b17376246f1477157daab86d4a1562d6b004f5be0d15dfc61ebd8bb129384e6b'
-            'ef1bd6766c9aefb9550bab728de99ac0b96366c6512e5404a747998715a3ba3c'
-            'fce01372eefd504e91cc1f049c476d9a08869a78c56c6d0ddcfc84e543cb854a'
+sha256sums=('2d50adfa80b72e69a87417863e77391113dd97fb9db96efa2051a841458206b7'
+            '6d725b58e9e71cf437349e6a9fe3f204bb0d60a8eeb659f7ca23a96e6f20e27c'
+            'd57e07580bd4a2250530a5497b852cf508365e8637dd1339683dfb133784fd20'
             'debe84c19f1ed5a78d4fa2a664e66f04e08212803505fd9ff67b72260c98fed9'
             'bcb2d35f41dcb6a9c8240bc8fe89e78ed270a6b5307d9b46f2bf59b0c7554a2b'
             'ac3f4c95c2bedafa5d845b0ef086bbf4c943f5b8a828d92698da24f0e2a4db38'
@@ -91,7 +85,6 @@ build() {
 
   msg2 'Building the backend'
   cd "$GOPATH/src/github.com/$pkgname/$pkgname"
-  env "${ENV_ARGS[@]}" go mod edit "-replace=github.com/urfave/cli=${srcdir}/cli-${_cli_v1_ver}" "-replace=github.com/urfave/cli/v2=${srcdir}/cli-${_cli_v2_ver}"
   env "${ENV_ARGS[@]}" go run build.go setup
   env "${ENV_ARGS[@]}" go run build.go build
 }
