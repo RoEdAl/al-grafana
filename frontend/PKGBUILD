@@ -15,9 +15,11 @@ makedepends=('yarn' 'python' 'nodejs')
 options=(!strip)
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
 	'0002-Frontend-build-without-source-map.patch'
+	'0003-Update-package.json.patch'
 )
 sha256sums=('ec1271b5a7202a12cb8046141025ad61aaa42e54425ab40acb7de46461896838'
-            '59d92de4b659701befa818df23cb763afc34b31899ed9fa7b57ec8948956c465')
+            '2863bd95f4a7b504ed61d88590b2e435e6c5e300923f6c58171d94e8639f666c'
+            'b766c5e7284f502325b24f2acf2472b6f3809083640d55f81f6eafdc4f652d6a')
 
 prepare() {
   cd "$_pkgname-$pkgver"

@@ -16,13 +16,15 @@ makedepends=('go>1.16' "${pkgname}-frontend=${pkgver}")
 backup=('etc/grafana.ini')
 source=("${pkgname}-${pkgver}.tar.gz::http://github.com/grafana/grafana/archive/v${pkgver}.tar.gz"
 	'0001-build-setup-improvements.patch'
+	'0003-Update-package.json.patch'
 	'grafana.service'
 	'grafana.sysusers'
 	'grafana.tmpfiles'
 	'nginx-grafana.conf')
 noextract=("${pkgname}-${pkgver}.tar.gz")
 sha256sums=('ec1271b5a7202a12cb8046141025ad61aaa42e54425ab40acb7de46461896838'
-            '1fe981fa234119d42514cfd0d45085ade8c1187414f7caad8a45a277c92f9629'
+            '5d18c76a115140effbc6afc97a5b65046ab8e3a625ddc5353ef29ffba1cdd138'
+            'b766c5e7284f502325b24f2acf2472b6f3809083640d55f81f6eafdc4f652d6a'
             'debe84c19f1ed5a78d4fa2a664e66f04e08212803505fd9ff67b72260c98fed9'
             'bcb2d35f41dcb6a9c8240bc8fe89e78ed270a6b5307d9b46f2bf59b0c7554a2b'
             'ac3f4c95c2bedafa5d845b0ef086bbf4c943f5b8a828d92698da24f0e2a4db38'
