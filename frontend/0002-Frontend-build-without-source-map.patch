@@ -1,7 +1,7 @@
-From 39404fae97faec6d80ee4727540e527cfc1d64a2 Mon Sep 17 00:00:00 2001
+From 9ce96be691d366155ceb4121d54d52a1a6e77105 Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
 Date: Mon, 6 Apr 2020 12:06:43 +0200
-Subject: [PATCH 2/3] Frontend - build without source map
+Subject: [PATCH 2/2] Frontend - build without source map
 
 
 diff --git a/scripts/webpack/webpack.prod.js b/scripts/webpack/webpack.prod.js
