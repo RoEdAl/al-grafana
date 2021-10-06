@@ -4,7 +4,7 @@
 
 pkgname=grafana-frontend
 _pkgname=grafana
-pkgver=7.5.9
+pkgver=8.1.5
 pkgrel=1
 pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB - Frontend'
 url='https://grafana.com/'
@@ -16,8 +16,8 @@ options=(!strip)
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/grafana/grafana/archive/v$pkgver.tar.gz"
 	'0002-Frontend-build-without-source-map.patch'
 )
-sha256sums=('2df9aef8c74a059a98b3861e6b3eb1d8aa8314c5648f742cef1451c518a8c636'
-            '0b0c708c70c83a01f3822f8d1f60cedc1c30a61458cdfae27c4feea9c333a523')
+sha256sums=('8b821910affa5ba3d2b72f77aff05a4c5150e9cccd1416d7621fbe2ea3aaa2c8'
+            'f22d1c3632a1ce19aea6aa7304e2c8f53482ce490f745adac2949068bfe8650a')
 
 prepare() {
   cd "$_pkgname-$pkgver"
