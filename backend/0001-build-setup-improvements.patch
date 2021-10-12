@@ -1,32 +1,32 @@
-From 2ad58e37516f4327a3d99e79506710e07c874e1e Mon Sep 17 00:00:00 2001
+From e435575392495fa21ca926ec4bede315be9dfcd7 Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
-Date: Sat, 15 Feb 2020 08:49:26 +0100
+Date: Fri, 8 Oct 2021 11:06:08 +0200
 Subject: [PATCH 1/2] build: setup improvements
 
 
-diff --git a/build.go b/build.go
-index 45e1bff35a..7d2a04b49d 100644
---- a/build.go
-+++ b/build.go
-@@ -108,7 +108,9 @@ func main() {
+diff --git a/pkg/build/cmd.go b/pkg/build/cmd.go
+index 5817cee065..4f892b533f 100644
+--- a/pkg/build/cmd.go
++++ b/pkg/build/cmd.go
+@@ -64,7 +64,9 @@ func RunCmd() int {
  	for _, cmd := range flag.Args() {
  		switch cmd {
  		case "setup":
--			setup()
+-			setup(opts.goos)
 +			for _, binary := range binaries {
-+				doSetup("./pkg/cmd/"+binary)
++				doSetup(opts.goos, "./pkg/cmd/"+binary)
 +			}
  
  		case "build-srv", "build-server":
- 			clean()
-@@ -218,12 +220,12 @@ func genPackageVersion() string {
+ 			if !opts.isDev {
+@@ -158,12 +160,12 @@ func genPackageVersion(version string, iteration string) string {
  	}
  }
  
--func setup() {
-+func doSetup(binaryName string) {
+-func setup(goos string) {
++func doSetup(goos string, binaryName string) {
  	args := []string{"install", "-v"}
- 	if goos == windows {
+ 	if goos == GoOSWindows {
  		args = append(args, "-buildmode=exe")
  	}
 -	args = append(args, "./pkg/cmd/grafana-server")
@@ -34,7 +34,21 @@ index 45e1bff35a..7d2a04b49d 100644
  	runPrint("go", args...)
  }
  
-@@ -361,7 +363,7 @@ func getGitBranch() string {
+diff --git a/pkg/build/git.go b/pkg/build/git.go
+index 6c86d74e00..e294edd8b0 100644
+--- a/pkg/build/git.go
++++ b/pkg/build/git.go
+@@ -1,5 +1,9 @@
+ package build
+ 
++import (
++	"os"
++)
++
+ func getGitBranch() string {
+ 	v, err := runError("git", "rev-parse", "--abbrev-ref", "HEAD")
+ 	if err != nil {
+@@ -11,7 +15,7 @@ func getGitBranch() string {
  func getGitSha() string {
  	v, err := runError("git", "rev-parse", "--short", "HEAD")
  	if err != nil {

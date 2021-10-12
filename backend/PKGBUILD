@@ -3,16 +3,17 @@
 # Based on: http://www.archlinux.org/packages/community/x86_64/grafana/
 
 pkgname=grafana
-pkgver=8.1.5
+pkgver=8.2.1
 pkgrel=1
 # _commit_short=$(git rev-parse --short HEAD)
-_commit_short=c725a4259a
+_commit_short=88622d7f09
+_wire_pkg_ver=v0.5.0
 pkgdesc='Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB'
 url='https://grafana.com/'
 arch=('i686' 'x86_64' 'aarch64' 'armv7h' 'armv6h')
 license=('Apache')
 depends=('glibc')
-makedepends=('go>1.16' "${pkgname}-frontend=${pkgver}")
+makedepends=('go>1.17' "${pkgname}-frontend=${pkgver}")
 backup=('etc/grafana.ini')
 source=("${pkgname}-${pkgver}.tar.gz::http://github.com/grafana/grafana/archive/v${pkgver}.tar.gz"
 	'0001-build-setup-improvements.patch'
@@ -21,8 +22,8 @@ source=("${pkgname}-${pkgver}.tar.gz::http://github.com/grafana/grafana/archive/
 	'grafana.tmpfiles'
 	'nginx-grafana.conf')
 noextract=("${pkgname}-${pkgver}.tar.gz")
-sha256sums=('8b821910affa5ba3d2b72f77aff05a4c5150e9cccd1416d7621fbe2ea3aaa2c8'
-            '6c403ab5e7db7ab418af55b46b0ee63e761c306d2b954d51a634efc6c8c5a647'
+sha256sums=('777102f39dfe90a59277e33c43f5c36d6c451183435effa6566ecac3f2c1ab7c'
+            'c1d999aa9588b20a3cb06814263802949fae24fc097b53a5e5540c3efee68ce1'
             'debe84c19f1ed5a78d4fa2a664e66f04e08212803505fd9ff67b72260c98fed9'
             'bcb2d35f41dcb6a9c8240bc8fe89e78ed270a6b5307d9b46f2bf59b0c7554a2b'
             'ac3f4c95c2bedafa5d845b0ef086bbf4c943f5b8a828d92698da24f0e2a4db38'
@@ -81,8 +82,12 @@ build() {
     "GOFLAGS=-buildmode=pie -modcacherw -trimpath"
   )
 
+  msg2 'Installing wire'
+  env "${ENV_ARGS[@]}" go install github.com/google/wire/cmd/wire@${_wire_pkg_ver}
+
   msg2 'Building the backend'
   cd "$GOPATH/src/github.com/$pkgname/$pkgname"
+  env "${ENV_ARGS[@]}" wire gen -tags oss ./pkg/server
   env "${ENV_ARGS[@]}" go run build.go setup
   env "${ENV_ARGS[@]}" go run build.go build
 }
