@@ -1,7 +1,7 @@
-From e435575392495fa21ca926ec4bede315be9dfcd7 Mon Sep 17 00:00:00 2001
+From 150e2e6365cc41741082b24975751c79cb2d38a0 Mon Sep 17 00:00:00 2001
 From: Edmunt Pienkowsky <roed@onet.eu>
 Date: Fri, 8 Oct 2021 11:06:08 +0200
-Subject: [PATCH 1/2] build: setup improvements
+Subject: [PATCH] build: setup improvements
 
 
 diff --git a/pkg/build/cmd.go b/pkg/build/cmd.go
